@@ -132,6 +132,10 @@ class OtpService
      */
     private function generateOtpCode(): string
     {
+        if (app()->environment(['local', 'testing'])) {
+            return '123456';
+        }
+
         return str_pad((string) random_int(0, 999999), self::OTP_LENGTH, '0', STR_PAD_LEFT);
     }
 }
