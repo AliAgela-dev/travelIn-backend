@@ -17,6 +17,11 @@ class UpdateResortStatusRequest extends FormRequest
     {
         return [
             'status' => ['required', Rule::enum(ResortStatus::class)],
+            'rejection_reason' => [
+                Rule::requiredIf(fn () => $this->status === ResortStatus::Rejected->value),
+                'string', 
+                'max:1000'
+            ],
         ];
     }
 }

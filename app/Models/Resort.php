@@ -36,6 +36,7 @@ class Resort extends Model implements HasMedia
         'phone_number',
         'email',
         'status',
+        'rejection_reason',
     ];
 
     /**

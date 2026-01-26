@@ -25,6 +25,7 @@ class ResortResource extends JsonResource
             'phone_number' => $this->phone_number,
             'email' => $this->email,
             'status' => $this->status instanceof \BackedEnum ? $this->status->value : $this->status,
+            'rejection_reason' => $this->when($this->status === \App\Enums\ResortStatus::Rejected || $this->status === \App\Enums\ResortStatus::Rejected->value, $this->rejection_reason),
             'images' => $this->getMedia('images')->map(fn ($media) => [
                 'id' => $media->id,
                 'url' => $media->getUrl(),

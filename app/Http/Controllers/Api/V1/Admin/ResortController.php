@@ -53,7 +53,13 @@ class ResortController extends Controller
      */
     public function update(UpdateResortStatusRequest $request, Resort $resort)
     {
-        $resort->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->status !== \App\Enums\ResortStatus::Rejected->value) {
+            $data['rejection_reason'] = null;
+        }
+
+        $resort->update($data);
 
         return $this->success(
             new ResortResource($resort->load(['city', 'area', 'owner', 'media'])),
