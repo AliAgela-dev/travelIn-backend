@@ -51,7 +51,13 @@ class UnitController extends Controller
      */
     public function update(UpdateUnitStatusRequest $request, Unit $unit)
     {
-        $unit->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->status !== \App\Enums\GeneralStatus::Rejected->value) {
+            $data['rejection_reason'] = null;
+        }
+
+        $unit->update($data);
 
         return $this->success(new UnitResource($unit), 'Unit status updated successfully.');
     }

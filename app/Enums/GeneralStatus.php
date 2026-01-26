@@ -6,4 +6,6 @@ enum GeneralStatus: string
 {
     case Active = 'active';
     case Inactive = 'inactive';
+
+    case Rejected = 'rejected';
 }

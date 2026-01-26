@@ -34,6 +34,7 @@ class Unit extends Model implements HasMedia
         'room_count',
         'features',
         'status',
+        'rejection_reason',
     ];
 
     protected $casts = [

@@ -25,6 +25,11 @@ class UpdateUnitStatusRequest extends FormRequest
     {
         return [
             'status' => ['required', Rule::enum(GeneralStatus::class)],
+            'rejection_reason' => [
+                Rule::requiredIf(fn () => $this->status === GeneralStatus::Rejected->value),
+                'string',
+                'max:1000'
+            ],
         ];
     }
 }

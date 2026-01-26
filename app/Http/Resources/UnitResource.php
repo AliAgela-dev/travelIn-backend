@@ -21,6 +21,7 @@ class UnitResource extends JsonResource
             'room_count' => $this->room_count,
             'features' => $this->features,
             'status' => $this->status,
+            'rejection_reason' => $this->when($this->status === \App\Enums\GeneralStatus::Rejected || $this->status === \App\Enums\GeneralStatus::Rejected->value, $this->rejection_reason),
             'images' => $this->getMedia('images')->map(fn ($media) => [
                 'id' => $media->id,
                 'url' => $media->getUrl(),
