@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
         \App\Models\City::observe(\App\Observers\CityObserver::class);
         \App\Models\Area::observe(\App\Observers\AreaObserver::class);
         \App\Models\Booking::observe(\App\Observers\BookingObserver::class);
+        \App\Models\User::observe(\App\Observers\UserObserver::class);
+        \App\Models\Review::observe(\App\Observers\ReviewObserver::class);
 
         // Event Listeners
         Event::listen(\App\Events\BookingConfirmed::class, \App\Listeners\SendBookingConfirmedNotification::class);
