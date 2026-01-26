@@ -1,0 +1,3357 @@
+{
+    "info": {
+        "_postman_id": "travel-in-api-collection",
+        "name": "TravelIn API",
+        "description": "Complete API collection for TravelIn Backend - Resort Booking Platform",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8000/api"
+        },
+        {
+            "key": "user_token",
+            "value": ""
+        },
+        {
+            "key": "resort_owner_token",
+            "value": ""
+        },
+        {
+            "key": "admin_token",
+            "value": ""
+        },
+        {
+            "key": "city_id",
+            "value": "1"
+        },
+        {
+            "key": "area_id",
+            "value": "1"
+        },
+        {
+            "key": "resort_id",
+            "value": "1"
+        },
+        {
+            "key": "unit_id",
+            "value": "1"
+        },
+        {
+            "key": "booking_id",
+            "value": "1"
+        },
+        {
+            "key": "review_id",
+            "value": "1"
+        },
+        {
+            "key": "notification_id",
+            "value": "1"
+        },
+        {
+            "key": "favorite_id",
+            "value": "1"
+        },
+        {
+            "key": "user_id",
+            "value": "1"
+        },
+        {
+            "key": "admin_id",
+            "value": "1"
+        },
+        {
+            "key": "pricing_id",
+            "value": "1"
+        },
+        {
+            "key": "availability_id",
+            "value": "1"
+        },
+        {
+            "key": "phone_number",
+            "value": "218912345678"
+        },
+        {
+            "key": "otp_code",
+            "value": "123456"
+        }
+    ],
+    "item": [
+        {
+            "name": "User",
+            "item": [
+                {
+                    "name": "Auth",
+                    "item": [
+                        {
+                            "name": "Request OTP",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"purpose\": \"registration\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/request-otp",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "request-otp"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Verify OTP",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"otp_code\": \"{{otp_code}}\",\n  \"purpose\": \"registration\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/verify-otp",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "verify-otp"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Register",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"otp_code\": \"{{otp_code}}\",\n  \"full_name\": \"John Doe\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\",\n  \"date_of_birth\": \"1990-01-15\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/register",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "register"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Login",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "exec": [
+                                            "var jsonData = pm.response.json();",
+                                            "if(jsonData.data && jsonData.data.token) {",
+                                            "    pm.collectionVariables.set('user_token', jsonData.data.token);",
+                                            "}"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"password\": \"password123\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/login",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "login"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Reset Password",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"otp_code\": \"{{otp_code}}\",\n  \"password\": \"newpassword123\",\n  \"password_confirmation\": \"newpassword123\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/reset-password",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "reset-password"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Current User",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/me",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "me"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Logout",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/logout",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "logout"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Cities",
+                    "item": [
+                        {
+                            "name": "List Cities",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/cities",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "cities"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get City",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/cities/{{city_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "cities",
+                                        "{{city_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Areas",
+                    "item": [
+                        {
+                            "name": "List Areas",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/areas",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "areas"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Area",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/areas/{{area_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "areas",
+                                        "{{area_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Resorts",
+                    "item": [
+                        {
+                            "name": "List Resorts",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/resorts",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "resorts"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Resort",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/resorts/{{resort_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "resorts",
+                                        "{{resort_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Units",
+                    "item": [
+                        {
+                            "name": "List Resort Units",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/resorts/{{resort_id}}/units",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "resorts",
+                                        "{{resort_id}}",
+                                        "units"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Unit",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/resorts/{{resort_id}}/units/{{unit_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "resorts",
+                                        "{{resort_id}}",
+                                        "units",
+                                        "{{unit_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Bookings",
+                    "item": [
+                        {
+                            "name": "List Bookings",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/bookings",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "bookings"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Booking",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"unit_id\": {{unit_id}},\n  \"check_in\": \"2026-02-01\",\n  \"check_out\": \"2026-02-05\",\n  \"guests\": 2,\n  \"children\": 1,\n  \"notes\": \"Late check-in please\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/bookings",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "bookings"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Booking",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/bookings/{{booking_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "bookings",
+                                        "{{booking_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Cancel Booking",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/bookings/{{booking_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "bookings",
+                                        "{{booking_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Reviews",
+                    "item": [
+                        {
+                            "name": "List Reviews",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/reviews",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "reviews"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Review",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"reviewable_type\": \"resort\",\n  \"reviewable_id\": {{resort_id}},\n  \"rating\": 5,\n  \"comment\": \"Amazing place, highly recommended!\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/reviews",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "reviews"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Review",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/reviews/{{review_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "reviews",
+                                        "{{review_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Favorites",
+                    "item": [
+                        {
+                            "name": "List Favorites",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/favorites",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "favorites"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Add Favorite",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"favoritable_type\": \"resort\",\n  \"favoritable_id\": {{resort_id}}\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/favorites",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "favorites"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Remove Favorite",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/favorites/{{favorite_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "favorites",
+                                        "{{favorite_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Notifications",
+                    "item": [
+                        {
+                            "name": "List Notifications",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/notifications",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "notifications"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Mark as Read",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/notifications/{{notification_id}}/read",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "notifications",
+                                        "{{notification_id}}",
+                                        "read"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Mark All as Read",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/notifications/read-all",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "notifications",
+                                        "read-all"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Notification",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/notifications/{{notification_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "notifications",
+                                        "{{notification_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "FCM Tokens",
+                    "item": [
+                        {
+                            "name": "Store FCM Token",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"token\": \"fcm_device_token_here\",\n  \"device_type\": \"android\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/fcm-tokens",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "fcm-tokens"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete FCM Token",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{user_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"token\": \"fcm_device_token_here\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/user/fcm-tokens",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "user",
+                                        "fcm-tokens"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Resort Owner",
+            "item": [
+                {
+                    "name": "Auth",
+                    "item": [
+                        {
+                            "name": "Request OTP",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"purpose\": \"registration\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/request-otp",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "request-otp"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Verify OTP",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"otp_code\": \"{{otp_code}}\",\n  \"purpose\": \"registration\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/verify-otp",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "verify-otp"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Register",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"otp_code\": \"{{otp_code}}\",\n  \"full_name\": \"Resort Owner\",\n  \"password\": \"password123\",\n  \"password_confirmation\": \"password123\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/register",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "register"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Login",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "exec": [
+                                            "var jsonData = pm.response.json();",
+                                            "if(jsonData.data && jsonData.data.token) {",
+                                            "    pm.collectionVariables.set('resort_owner_token', jsonData.data.token);",
+                                            "}"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"password\": \"password123\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/login",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "login"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Me",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/me",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "me"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Logout",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/logout",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "logout"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Uploads",
+                    "item": [
+                        {
+                            "name": "Upload File",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "file",
+                                            "type": "file",
+                                            "src": ""
+                                        }
+                                    ]
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/uploads",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "uploads"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Resorts",
+                    "item": [
+                        {
+                            "name": "List Resorts",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Resort",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"city_id\": {{city_id}},\n  \"area_id\": {{area_id}},\n  \"ar_name\": \"منتجع الشاطئ\",\n  \"en_name\": \"Beach Resort\",\n  \"ar_description\": \"وصف المنتجع\",\n  \"en_description\": \"Resort description\",\n  \"phone_number\": \"0912345678\",\n  \"email\": \"resort@example.com\",\n  \"media_ids\": []\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Resort",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts/{{resort_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts",
+                                        "{{resort_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Resort",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"ar_name\": \"منتجع محدث\",\n  \"en_name\": \"Updated Resort\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts/{{resort_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts",
+                                        "{{resort_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Resort",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts/{{resort_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts",
+                                        "{{resort_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Units",
+                    "item": [
+                        {
+                            "name": "List Units",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts/{{resort_id}}/units",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts",
+                                        "{{resort_id}}",
+                                        "units"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Unit",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"ar_name\": \"شاليه فاخر\",\n  \"en_name\": \"Luxury Chalet\",\n  \"ar_description\": \"وصف الشاليه\",\n  \"en_description\": \"Chalet description\",\n  \"price_per_night\": 150.00,\n  \"capacity\": 4,\n  \"room_count\": 2,\n  \"features\": [\"wifi\", \"pool\"],\n  \"media_ids\": []\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts/{{resort_id}}/units",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts",
+                                        "{{resort_id}}",
+                                        "units"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Unit",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts/{{resort_id}}/units/{{unit_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts",
+                                        "{{resort_id}}",
+                                        "units",
+                                        "{{unit_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Unit",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"price_per_night\": 175.00,\n  \"capacity\": 6\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts/{{resort_id}}/units/{{unit_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts",
+                                        "{{resort_id}}",
+                                        "units",
+                                        "{{unit_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Unit",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/resorts/{{resort_id}}/units/{{unit_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "resorts",
+                                        "{{resort_id}}",
+                                        "units",
+                                        "{{unit_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Unit Pricing",
+                    "item": [
+                        {
+                            "name": "List Pricing",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/units/{{unit_id}}/pricing",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "units",
+                                        "{{unit_id}}",
+                                        "pricing"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Pricing",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"start_date\": \"2026-06-01\",\n  \"end_date\": \"2026-08-31\",\n  \"price_per_night\": 200.00,\n  \"label\": \"Summer Season\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/units/{{unit_id}}/pricing",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "units",
+                                        "{{unit_id}}",
+                                        "pricing"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Pricing",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"start_date\": \"2026-06-01\",\n  \"end_date\": \"2026-08-31\",\n  \"price_per_night\": 220.00\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/units/{{unit_id}}/pricing/{{pricing_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "units",
+                                        "{{unit_id}}",
+                                        "pricing",
+                                        "{{pricing_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Pricing",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/units/{{unit_id}}/pricing/{{pricing_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "units",
+                                        "{{unit_id}}",
+                                        "pricing",
+                                        "{{pricing_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Unit Availability",
+                    "item": [
+                        {
+                            "name": "List Availability",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/units/{{unit_id}}/availability",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "units",
+                                        "{{unit_id}}",
+                                        "availability"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Block Dates",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"start_date\": \"2026-03-01\",\n  \"end_date\": \"2026-03-15\",\n  \"reason\": \"Maintenance\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/units/{{unit_id}}/availability",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "units",
+                                        "{{unit_id}}",
+                                        "availability"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Unblock Dates",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/units/{{unit_id}}/availability/{{availability_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "units",
+                                        "{{unit_id}}",
+                                        "availability",
+                                        "{{availability_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Bookings",
+                    "item": [
+                        {
+                            "name": "List Bookings",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/bookings",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "bookings"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Booking",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/bookings/{{booking_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "bookings",
+                                        "{{booking_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Booking Status",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"status\": \"confirmed\",\n  \"owner_notes\": \"Welcome!\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/bookings/{{booking_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "bookings",
+                                        "{{booking_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Reviews",
+                    "item": [
+                        {
+                            "name": "List Reviews",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/reviews",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "reviews"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Reply to Review",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"owner_reply\": \"Thank you!\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/reviews/{{review_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "reviews",
+                                        "{{review_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Dashboard",
+                    "item": [
+                        {
+                            "name": "Get Stats",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/dashboard/stats",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "dashboard",
+                                        "stats"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Recent Activity",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/dashboard/recent-activity?limit=10",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "dashboard",
+                                        "recent-activity"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "10"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Revenue Chart",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{resort_owner_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/resort-owner/dashboard/revenue-chart?months=6",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "resort-owner",
+                                        "dashboard",
+                                        "revenue-chart"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "months",
+                                            "value": "6"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Admin",
+            "item": [
+                {
+                    "name": "Auth",
+                    "item": [
+                        {
+                            "name": "Request OTP",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"purpose\": \"login\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/request-otp",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "request-otp"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Verify OTP",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"otp_code\": \"{{otp_code}}\",\n  \"purpose\": \"reset\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/verify-otp",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "verify-otp"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Login",
+                            "event": [
+                                {
+                                    "listen": "test",
+                                    "script": {
+                                        "exec": [
+                                            "var jsonData = pm.response.json();",
+                                            "if(jsonData.data && jsonData.data.token) {",
+                                            "    pm.collectionVariables.set('admin_token', jsonData.data.token);",
+                                            "}"
+                                        ]
+                                    }
+                                }
+                            ],
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"phone_number\": \"{{phone_number}}\",\n  \"password\": \"password123\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/login",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "login"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Me",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/me",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "me"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Logout",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/logout",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "logout"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Cities",
+                    "item": [
+                        {
+                            "name": "List Cities",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/cities",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "cities"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create City",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"ar_name\": \"طرابلس\",\n  \"en_name\": \"Tripoli\",\n  \"status\": \"active\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/cities",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "cities"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get City",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/cities/{{city_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "cities",
+                                        "{{city_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update City",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"ar_name\": \"طرابلس\",\n  \"en_name\": \"Tripoli\",\n  \"status\": \"active\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/cities/{{city_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "cities",
+                                        "{{city_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete City",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/cities/{{city_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "cities",
+                                        "{{city_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Areas",
+                    "item": [
+                        {
+                            "name": "List Areas",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/areas",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "areas"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Area",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"city_id\": {{city_id}},\n  \"ar_name\": \"المدينة القديمة\",\n  \"en_name\": \"Old Town\",\n  \"status\": \"active\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/areas",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "areas"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Area",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/areas/{{area_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "areas",
+                                        "{{area_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Area",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"city_id\": {{city_id}},\n  \"ar_name\": \"المنطقة\",\n  \"en_name\": \"Area\",\n  \"status\": \"active\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/areas/{{area_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "areas",
+                                        "{{area_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Area",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/areas/{{area_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "areas",
+                                        "{{area_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Users",
+                    "item": [
+                        {
+                            "name": "List Users",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/users",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "users"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get User",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/users/{{user_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "users",
+                                        "{{user_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update User Status",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"status\": \"active\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/users/{{user_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "users",
+                                        "{{user_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Resorts",
+                    "item": [
+                        {
+                            "name": "List Resorts",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/resorts",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "resorts"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Resort",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/resorts/{{resort_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "resorts",
+                                        "{{resort_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Resort Status",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"status\": \"active\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/resorts/{{resort_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "resorts",
+                                        "{{resort_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Units",
+                    "item": [
+                        {
+                            "name": "List Units",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/units",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "units"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Unit",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/units/{{unit_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "units",
+                                        "{{unit_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Unit Status",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"status\": \"active\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/units/{{unit_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "units",
+                                        "{{unit_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Notifications",
+                    "item": [
+                        {
+                            "name": "List Notifications",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/notifications",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "notifications"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Send Notification",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"user_ids\": [1, 2],\n  \"ar_title\": \"عنوان الإشعار\",\n  \"en_title\": \"Notification Title\",\n  \"ar_body\": \"محتوى الإشعار\",\n  \"en_body\": \"Notification body\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/notifications",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "notifications"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Notification",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/notifications/{{notification_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "notifications",
+                                        "{{notification_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Notification",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/notifications/{{notification_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "notifications",
+                                        "{{notification_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Dashboard",
+                    "item": [
+                        {
+                            "name": "Get Stats",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/dashboard/stats",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "dashboard",
+                                        "stats"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Reports",
+                    "item": [
+                        {
+                            "name": "Revenue Report",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/reports/revenue?start_date=2026-01-01&end_date=2026-12-31",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "reports",
+                                        "revenue"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "start_date",
+                                            "value": "2026-01-01"
+                                        },
+                                        {
+                                            "key": "end_date",
+                                            "value": "2026-12-31"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Bookings Report",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/reports/bookings?start_date=2026-01-01&end_date=2026-12-31",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "reports",
+                                        "bookings"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "start_date",
+                                            "value": "2026-01-01"
+                                        },
+                                        {
+                                            "key": "end_date",
+                                            "value": "2026-12-31"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Users Report",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/reports/users?start_date=2026-01-01&end_date=2026-12-31",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "reports",
+                                        "users"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "start_date",
+                                            "value": "2026-01-01"
+                                        },
+                                        {
+                                            "key": "end_date",
+                                            "value": "2026-12-31"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Export Report",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/reports/export?type=revenue&format=csv",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "reports",
+                                        "export"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "type",
+                                            "value": "revenue"
+                                        },
+                                        {
+                                            "key": "format",
+                                            "value": "csv"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Admin Management (Super Admin)",
+                    "item": [
+                        {
+                            "name": "List Admins",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/admins",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "admins"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Create Admin",
+                            "request": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"full_name\": \"New Admin\",\n  \"phone_number\": \"218923456789\",\n  \"password\": \"password123\",\n  \"city_id\": 1,\n  \"date_of_birth\": \"1990-01-01\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/admins",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "admins"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Admin",
+                            "request": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/admins/{{admin_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "admins",
+                                        "{{admin_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Update Admin",
+                            "request": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"full_name\": \"Updated Admin\",\n  \"status\": \"active\"\n}"
+                                },
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/admins/{{admin_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "admins",
+                                        "{{admin_id}}"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Delete Admin",
+                            "request": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Authorization",
+                                        "value": "Bearer {{admin_token}}"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/admin/admins/{{admin_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "admin",
+                                        "admins",
+                                        "{{admin_id}}"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
