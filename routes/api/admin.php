@@ -31,6 +31,7 @@ Route::prefix('v1/admin')->group(function () {
         Route::apiResource('resorts', \App\Http\Controllers\Api\V1\Admin\ResortController::class)->only(['index', 'show', 'update']);
         Route::apiResource('units', \App\Http\Controllers\Api\V1\Admin\UnitController::class)->only(['index', 'show', 'update']);
         Route::get('/dashboard/stats', [\App\Http\Controllers\Api\V1\Admin\DashboardController::class, 'stats']);
+        Route::post('notifications/{notification}/send', [\App\Http\Controllers\Api\V1\Admin\NotificationController::class, 'send']);
         Route::apiResource('notifications', \App\Http\Controllers\Api\V1\Admin\NotificationController::class)->only(['index', 'store', 'show', 'destroy']);
         
         // Reports

@@ -23,11 +23,13 @@ class Notification extends Model
         'notifiable_id',
         'data',
         'read_at',
+        'status',
     ];
 
     protected $casts = [
         'data' => 'array',
         'read_at' => 'datetime',
+        'status' => \App\Enums\NotificationStatus::class,
     ];
 
     public function user(): BelongsTo
@@ -53,5 +55,15 @@ class Notification extends Model
     public function markAsRead(): void
     {
         $this->update(['read_at' => now()]);
+    }
+
+    public function scopePending(Builder $query): void
+    {
+        $query->where('status', \App\Enums\NotificationStatus::Pending);
+    }
+
+    public function scopeSent(Builder $query): void
+    {
+        $query->where('status', \App\Enums\NotificationStatus::Sent);
     }
 }

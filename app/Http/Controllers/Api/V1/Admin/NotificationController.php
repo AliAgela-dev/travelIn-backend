@@ -31,28 +31,80 @@ class NotificationController extends Controller
     /**
      * Create manual notification (broadcast or targeted).
      */
+    /**
+     * Create manual notification (broadcast or targeted).
+     */
     public function store(StoreAdminNotificationRequest $request)
     {
-        if ($request->user_ids) {
-            $users = User::whereIn('id', $request->user_ids)->get();
+        $status = $request->status ?? \App\Enums\NotificationStatus::Pending->value;
+
+        // If status is pending, just create the notification record
+        if ($status === \App\Enums\NotificationStatus::Pending->value) {
+            $notification = Notification::create([
+                'type' => 'admin_broadcast',
+                'ar_title' => $request->ar_title,
+                'en_title' => $request->en_title,
+                'ar_body' => $request->ar_body,
+                'en_body' => $request->en_body,
+                'data' => [
+                    'user_ids' => $request->user_ids, // Store target users if any
+                    'is_broadcast' => empty($request->user_ids),
+                ],
+                'status' => \App\Enums\NotificationStatus::Pending,
+            ]);
+
+            return $this->success(new NotificationResource($notification), 'Notification created successfully as pending.');
+        }
+
+        // If status is sent, send immediately
+        $this->sendNotification($request->validated());
+
+        return $this->success(null, 'Notifications sent successfully.');
+    }
+
+    /**
+     * Send a pending notification.
+     */
+    public function send(Notification $notification)
+    {
+        if ($notification->status === \App\Enums\NotificationStatus::Sent) {
+            return $this->error('Notification already sent.', 400);
+        }
+
+        $data = [
+            'ar_title' => $notification->ar_title,
+            'en_title' => $notification->en_title,
+            'ar_body' => $notification->ar_body,
+            'en_body' => $notification->en_body,
+            'user_ids' => $notification->data['user_ids'] ?? null,
+        ];
+
+        $this->sendNotification($data);
+
+        $notification->update(['status' => \App\Enums\NotificationStatus::Sent]);
+
+        return $this->success(new NotificationResource($notification), 'Notification sent successfully.');
+    }
+
+    protected function sendNotification(array $data)
+    {
+        if (!empty($data['user_ids'])) {
+            $users = User::whereIn('id', $data['user_ids'])->get();
         } else {
             // Broadcast to all users
             $users = User::where('type', 'user')->get();
         }
 
-        $notifications = [];
         foreach ($users as $user) {
-            $notifications[] = $this->notificationService->notify(
+            $this->notificationService->notify(
                 $user,
                 'admin_broadcast',
-                $request->ar_title,
-                $request->en_title,
-                $request->ar_body,
-                $request->en_body
+                $data['ar_title'],
+                $data['en_title'],
+                $data['ar_body'],
+                $data['en_body']
             );
         }
-
-        return $this->success(['count' => count($notifications)], 'Notifications sent successfully.');
     }
 
     /**

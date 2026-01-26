@@ -28,6 +28,7 @@ class StoreAdminNotificationRequest extends FormRequest
             'en_title' => ['required', 'string', 'max:255'],
             'ar_body' => ['required', 'string'],
             'en_body' => ['required', 'string'],
+            'status' => ['nullable', \Illuminate\Validation\Rule::enum(\App\Enums\NotificationStatus::class)],
         ];
     }
 }
