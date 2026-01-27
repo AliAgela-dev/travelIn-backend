@@ -21,6 +21,7 @@ class AreaController extends Controller
             ->with('city')
             ->allowedFilters([
                 AllowedFilter::scope('search'),
+                AllowedFilter::exact('status'),
                 'name_ar',
                 'name_en',
                 AllowedFilter::exact('city_id'),

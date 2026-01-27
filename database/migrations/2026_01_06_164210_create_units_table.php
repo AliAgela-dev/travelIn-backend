@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('capacity');
             $table->integer('room_count')->default(1);
             $table->json('features')->nullable();
-            $table->string('status')->default('active');
+            $table->string('status')->default('inactive');
             $table->timestamps();
         });
     }
