@@ -18,12 +18,15 @@ class UserObserver
         // Send welcome notification to new travelers
         if ($user->type === \App\Enums\UserType::User) {
             $this->notificationService->notify(
-                $user,
-                \App\Enums\NotificationType::Welcome->value,
-                'مرحباً بك!',
-                'Welcome!',
-                'شكراً لانضمامك إلى TravelIn. استكشف أفضل المنتجعات الآن!',
-                'Thank you for joining TravelIn. Explore the best resorts now!'
+                \App\Models\Notification::create([
+                    'user_id' => $user->id,
+                    'type' => \App\Enums\NotificationType::Welcome->value,
+                    'ar_title' => 'مرحباً بك!',
+                    'en_title' => 'Welcome!',
+                    'ar_body' => 'شكراً لانضمامك إلى TravelIn. استكشف أفضل المنتجعات الآن!',
+                    'en_body' => 'Thank you for joining TravelIn. Explore the best resorts now!',
+                    'data' => [],
+                ])
             );
         }
     }

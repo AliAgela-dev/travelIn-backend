@@ -15,58 +15,39 @@ class NotificationService
     /**
      * Create a notification for a user.
      */
-    public function notify(
-        ?User $user,
-        ?string $type,
-        string $arTitle,
-        string $enTitle,
-        string $arBody,
-        string $enBody,
-        ?Model $notifiable = null,
-        array $data = []
-    ): Notification {
-        // Create DB Notification
-        $notification = Notification::create([
-            'user_id' => $user?->id,
-            'type' => $type,
-            'ar_title' => $arTitle,
-            'en_title' => $enTitle,
-            'ar_body' => $arBody,
-            'en_body' => $enBody,
-            'notifiable_type' => $notifiable ? get_class($notifiable) : null,
-            'notifiable_id' => $notifiable?->id,
-            'data' => $data,
-        ]);
-
-        // Send FCM Notification
-        // Determine language preference (defaulting to English here, or could allow both titles/bodies in data payload)
-        // For simplicity, we send English as default or based on some user setting if available.
-        // Or we can send both in data payload and let the mobile app decide which to show.
+    public function notify(Notification $notification): Notification 
+    {
+        $title = $notification->en_title; // fallback or logic to choose
+        $body = $notification->en_body;
         
-        $title = $enTitle; // fallback or logic to choose
-        $body = $enBody;
+        $type = $notification->type;
+        $arTitle = $notification->ar_title;
+        $enTitle = $notification->en_title;
+        $arBody = $notification->ar_body;
+        $enBody = $notification->en_body;
+        $data = $notification->data ?? [];
 
-        if($user){
-        $this->fcmService->sendToUser(
-            $user, 
-            $title, 
-            $body, 
-            array_merge($data, [
-                'notification_id' => $notification->id,
-                'type' => $type,
-                'ar_title' => $arTitle,
-                'ar_body' => $arBody,
-                'en_title' => $enTitle,
-                'en_body' => $enBody,
-            ])
-        );
+        if($notification->user){
+            $this->fcmService->sendToUser(
+                $notification->user, 
+                $title, 
+                $body, 
+                array_merge($data, [
+                    'notification_id' => $notification->id,
+                    'type' => $type,
+                    'ar_title' => $arTitle,
+                    'ar_body' => $arBody,
+                    'en_title' => $enTitle,
+                    'en_body' => $enBody,
+                ])
+            );
         }
         else{
             $this->fcmService->sendToTopic(
                 'admin_broadcast',
                 $title,
                 $body,
-                array_merge([
+                array_merge($data, [
                     'notification_id' => $notification->id,
                     'type' => $type,
                     'ar_title' => $arTitle,
@@ -84,15 +65,19 @@ class NotificationService
      */
     public function bookingConfirmed(User $user, Model $booking): Notification
     {
-        return $this->notify(
-            $user,
-            'booking_confirmed',
-            'تم تأكيد الحجز',
-            'Booking Confirmed',
-            'تم تأكيد حجزك بنجاح. نتطلع لاستضافتك!',
-            'Your booking has been confirmed. We look forward to hosting you!',
-            $booking
-        );
+        $notification = Notification::create([
+            'user_id' => $user->id,
+            'type' => 'booking_confirmed',
+            'ar_title' => 'تم تأكيد الحجز',
+            'en_title' => 'Booking Confirmed',
+            'ar_body' => 'تم تأكيد حجزك بنجاح. نتطلع لاستضافتك!',
+            'en_body' => 'Your booking has been confirmed. We look forward to hosting you!',
+            'notifiable_type' => get_class($booking),
+            'notifiable_id' => $booking->id,
+            'data' => [],
+        ]);
+
+        return $this->notify($notification);
     }
 
     /**
@@ -100,15 +85,19 @@ class NotificationService
      */
     public function bookingRejected(User $user, Model $booking): Notification
     {
-        return $this->notify(
-            $user,
-            'booking_rejected',
-            'تم رفض الحجز',
-            'Booking Rejected',
-            'للأسف، تم رفض حجزك. يرجى تجربة موعد آخر.',
-            'Unfortunately, your booking was rejected. Please try another date.',
-            $booking
-        );
+        $notification = Notification::create([
+            'user_id' => $user->id,
+            'type' => 'booking_rejected',
+            'ar_title' => 'تم رفض الحجز',
+            'en_title' => 'Booking Rejected',
+            'ar_body' => 'للأسف، تم رفض حجزك. يرجى تجربة موعد آخر.',
+            'en_body' => 'Unfortunately, your booking was rejected. Please try another date.',
+            'notifiable_type' => get_class($booking),
+            'notifiable_id' => $booking->id,
+            'data' => [],
+        ]);
+
+        return $this->notify($notification);
     }
 
     /**
@@ -116,15 +105,19 @@ class NotificationService
      */
     public function bookingReminder(User $user, Model $booking): Notification
     {
-        return $this->notify(
-            $user,
-            'booking_reminder',
-            'تذكير بالحجز',
-            'Booking Reminder',
-            'تذكير: موعد تسجيل الوصول غداً!',
-            'Reminder: Your check-in is tomorrow!',
-            $booking
-        );
+        $notification = Notification::create([
+            'user_id' => $user->id,
+            'type' => 'booking_reminder',
+            'ar_title' => 'تذكير بالحجز',
+            'en_title' => 'Booking Reminder',
+            'ar_body' => 'تذكير: موعد تسجيل الوصول غداً!',
+            'en_body' => 'Reminder: Your check-in is tomorrow!',
+            'notifiable_type' => get_class($booking),
+            'notifiable_id' => $booking->id,
+            'data' => [],
+        ]);
+
+        return $this->notify($notification);
     }
 
     /**
@@ -132,15 +125,19 @@ class NotificationService
      */
     public function reviewReplied(User $user, Model $review): Notification
     {
-        return $this->notify(
-            $user,
-            'review_replied',
-            'رد على تقييمك',
-            'Reply to Your Review',
-            'رد المالك على تقييمك.',
-            'The owner has replied to your review.',
-            $review
-        );
+        $notification = Notification::create([
+            'user_id' => $user->id,
+            'type' => 'review_replied',
+            'ar_title' => 'رد على تقييمك',
+            'en_title' => 'Reply to Your Review',
+            'ar_body' => 'رد المالك على تقييمك.',
+            'en_body' => 'The owner has replied to your review.',
+            'notifiable_type' => get_class($review),
+            'notifiable_id' => $review->id,
+            'data' => [],
+        ]);
+
+        return $this->notify($notification);
     }
     /**
      * Send an existing notification via FCM without creating a new record.
@@ -168,10 +165,7 @@ class NotificationService
                 $payload
             );
         } else {
-            // Assume broadcast if no user_id and type is admin_broadcast
-            // You might want to refine this logic if there are other types.
             $topic = 'admin_broadcast';
-            
             $this->fcmService->sendToTopic(
                 $topic,
                 $title,

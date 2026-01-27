@@ -23,13 +23,17 @@ class BookingObserver
                 BookingStatus::Confirmed => $this->notificationService->bookingConfirmed($booking->user, $booking),
                 BookingStatus::Rejected => $this->notificationService->bookingRejected($booking->user, $booking),
                 BookingStatus::Cancelled => $this->notificationService->notify(
-                    $booking->user,
-                    \App\Enums\NotificationType::BookingCancelled->value,
-                    'تم إلغاء الحجز',
-                    'Booking Cancelled',
-                    'تم إلغاء حجزك بنجاح.',
-                    'Your booking has been cancelled successfully.',
-                    $booking
+                    \App\Models\Notification::create([
+                        'user_id' => $booking->user_id,
+                        'type' => \App\Enums\NotificationType::BookingCancelled->value,
+                        'ar_title' => 'تم إلغاء الحجز',
+                        'en_title' => 'Booking Cancelled',
+                        'ar_body' => 'تم إلغاء حجزك بنجاح.',
+                        'en_body' => 'Your booking has been cancelled successfully.',
+                        'notifiable_type' => get_class($booking),
+                        'notifiable_id' => $booking->id,
+                        'data' => [],
+                    ])
                 ),
                 default => null,
             };

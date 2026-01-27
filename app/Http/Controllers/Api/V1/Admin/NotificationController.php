@@ -39,8 +39,6 @@ class NotificationController extends Controller
     {
         $status = $request->status ?? \App\Enums\NotificationStatus::Pending->value;
 
-        // If status is pending, just create the notification record
-        if ($status === \App\Enums\NotificationStatus::Pending->value) {
             $notification = Notification::create([
                 'type' => 'admin_broadcast',
                 'ar_title' => $request->ar_title,
@@ -53,13 +51,12 @@ class NotificationController extends Controller
                 'status' => \App\Enums\NotificationStatus::Pending,
             ]);
 
+            if($status === \App\Enums\NotificationStatus::Sent->value){
+                $this->notificationService->sendThroughFcm($notification);
+                $notification->update(['status' => \App\Enums\NotificationStatus::Sent]);
+            }
             return $this->success(new NotificationResource($notification), 'Notification created successfully as pending.');
-        }
 
-        // If status is sent, send immediately
-        $this->sendNotification($request->validated());
-
-        return $this->success(null, 'Notifications sent successfully.');
     }
 
     /**
@@ -70,35 +67,10 @@ class NotificationController extends Controller
         if ($notification->status === \App\Enums\NotificationStatus::Sent) {
             return $this->error('Notification already sent.', 400);
         }
-
-        $data = [
-            'ar_title' => $notification->ar_title,
-            'en_title' => $notification->en_title,
-            'ar_body' => $notification->ar_body,
-            'en_body' => $notification->en_body,
-            'user_ids' => $notification->data['user_ids'] ?? null,
-        ];
-
-        // Since we only allow broadcasts now, always send through FCM directly to avoid duplication
         $this->notificationService->sendThroughFcm($notification);
-
         $notification->update(['status' => \App\Enums\NotificationStatus::Sent]);
-
         return $this->success(new NotificationResource($notification), 'Notification sent successfully.');
     }
-
-    protected function sendNotification(array $data)
-    {
-        $this->notificationService->notify(
-            null,
-            'admin_broadcast',
-            $data['ar_title'],
-            $data['en_title'],
-            $data['ar_body'],
-            $data['en_body']
-        );
-    }
-
     /**
      * View a notification.
      */
