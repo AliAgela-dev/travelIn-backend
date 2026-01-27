@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class NotificationService
 {
+    public function __construct(protected FcmService $fcmService)
+    {
+    }
+
     /**
      * Create a notification for a user.
      */
     public function notify(
-        User $user,
-        string $type,
+        ?User $user,
+        ?string $type,
         string $arTitle,
         string $enTitle,
         string $arBody,
@@ -21,8 +25,9 @@ class NotificationService
         ?Model $notifiable = null,
         array $data = []
     ): Notification {
-        return Notification::create([
-            'user_id' => $user->id,
+        // Create DB Notification
+        $notification = Notification::create([
+            'user_id' => $user?->id,
             'type' => $type,
             'ar_title' => $arTitle,
             'en_title' => $enTitle,
@@ -32,6 +37,46 @@ class NotificationService
             'notifiable_id' => $notifiable?->id,
             'data' => $data,
         ]);
+
+        // Send FCM Notification
+        // Determine language preference (defaulting to English here, or could allow both titles/bodies in data payload)
+        // For simplicity, we send English as default or based on some user setting if available.
+        // Or we can send both in data payload and let the mobile app decide which to show.
+        
+        $title = $enTitle; // fallback or logic to choose
+        $body = $enBody;
+
+        if($user){
+        $this->fcmService->sendToUser(
+            $user, 
+            $title, 
+            $body, 
+            array_merge($data, [
+                'notification_id' => $notification->id,
+                'type' => $type,
+                'ar_title' => $arTitle,
+                'ar_body' => $arBody,
+                'en_title' => $enTitle,
+                'en_body' => $enBody,
+            ])
+        );
+        }
+        else{
+            $this->fcmService->sendToTopic(
+                'admin_broadcast',
+                $title,
+                $body,
+                array_merge([
+                    'notification_id' => $notification->id,
+                    'type' => $type,
+                    'ar_title' => $arTitle,
+                    'ar_body' => $arBody, 
+                    'en_title' => $enTitle,
+                    'en_body' => $enBody,
+                ])
+            );
+        }
+        return $notification;
     }
 
     /**

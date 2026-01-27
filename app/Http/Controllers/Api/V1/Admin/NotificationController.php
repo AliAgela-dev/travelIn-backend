@@ -89,14 +89,10 @@ class NotificationController extends Controller
 
     protected function sendNotification(array $data)
     {
+        $users = [];
         if (!empty($data['user_ids'])) {
             $users = User::whereIn('id', $data['user_ids'])->get();
-        } else {
-            // Broadcast to all users
-            $users = User::where('type', 'user')->get();
-        }
-
-        foreach ($users as $user) {
+            foreach ($users as $user) {
             $this->notificationService->notify(
                 $user,
                 'admin_broadcast',
@@ -106,6 +102,18 @@ class NotificationController extends Controller
                 $data['en_body']
             );
         }
+        }
+        else {
+             $this->notificationService->notify(
+                null,
+                'admin_broadcast',
+                $data['ar_title'],
+                $data['en_title'],
+                $data['ar_body'],
+                $data['en_body']
+            );
+        }
+        
     }
 
     /**
