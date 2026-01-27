@@ -142,4 +142,42 @@ class NotificationService
             $review
         );
     }
+    /**
+     * Send an existing notification via FCM without creating a new record.
+     */
+    public function sendThroughFcm(Notification $notification): void
+    {
+        $title = $notification->en_title;
+        $body = $notification->en_body;
+        $data = $notification->data ?? [];
+
+        $payload = array_merge($data, [
+            'notification_id' => $notification->id,
+            'type' => $notification->type,
+            'ar_title' => $notification->ar_title,
+            'ar_body' => $notification->ar_body,
+            'en_title' => $notification->en_title,
+            'en_body' => $notification->en_body,
+        ]);
+
+        if ($notification->user) {
+            $this->fcmService->sendToUser(
+                $notification->user,
+                $title,
+                $body,
+                $payload
+            );
+        } else {
+            // Assume broadcast if no user_id and type is admin_broadcast
+            // You might want to refine this logic if there are other types.
+            $topic = 'admin_broadcast';
+            
+            $this->fcmService->sendToTopic(
+                $topic,
+                $title,
+                $body,
+                $payload
+            );
+        }
+    }
 }

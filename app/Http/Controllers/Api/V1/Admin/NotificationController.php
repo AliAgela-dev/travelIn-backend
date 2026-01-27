@@ -80,7 +80,13 @@ class NotificationController extends Controller
             'user_ids' => $notification->data['user_ids'] ?? null,
         ];
 
-        $this->sendNotification($data);
+        if (empty($data['user_ids'])) {
+             // If it's a broadcast, send the existing notification directly to avoid duplication
+             $this->notificationService->sendThroughFcm($notification);
+        } else {
+             // If it's targeted, we indeed want to create individual records for each user
+             $this->sendNotification($data);
+        }
 
         $notification->update(['status' => \App\Enums\NotificationStatus::Sent]);
 
