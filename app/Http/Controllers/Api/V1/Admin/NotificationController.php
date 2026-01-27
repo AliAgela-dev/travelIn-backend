@@ -22,7 +22,7 @@ class NotificationController extends Controller
     public function index()
     {
         $notifications = Notification::with('user')
-            where('type', 'admin_broadcast')
+            ->where('type', 'admin_broadcast')
             ->latest()
             ->paginate();
 
