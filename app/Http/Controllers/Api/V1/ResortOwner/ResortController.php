@@ -45,7 +45,7 @@ class ResortController extends Controller
 
             if (!empty($data['media_ids'])) {
                 foreach ($data['media_ids'] as $tempId) {
-                    $this->mediaService->moveMediaFromTemp($tempId, $resort);
+                    $this->mediaService->moveMediaFromTemp($tempId, $resort, 'images');
                 }
             }
 
@@ -85,7 +85,7 @@ class ResortController extends Controller
 
             if (!empty($data['media_ids'])) {
                 foreach ($data['media_ids'] as $tempId) {
-                    $this->mediaService->moveMediaFromTemp($tempId, $resort);
+                    $this->mediaService->moveMediaFromTemp($tempId, $resort, 'images');
                 }
             }
 
