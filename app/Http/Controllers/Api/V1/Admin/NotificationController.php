@@ -48,8 +48,7 @@ class NotificationController extends Controller
                 'ar_body' => $request->ar_body,
                 'en_body' => $request->en_body,
                 'data' => [
-                    'user_ids' => $request->user_ids, // Store target users if any
-                    'is_broadcast' => empty($request->user_ids),
+                    'is_broadcast' => true,
                 ],
                 'status' => \App\Enums\NotificationStatus::Pending,
             ]);
@@ -80,13 +79,8 @@ class NotificationController extends Controller
             'user_ids' => $notification->data['user_ids'] ?? null,
         ];
 
-        if (empty($data['user_ids'])) {
-             // If it's a broadcast, send the existing notification directly to avoid duplication
-             $this->notificationService->sendThroughFcm($notification);
-        } else {
-             // If it's targeted, we indeed want to create individual records for each user
-             $this->sendNotification($data);
-        }
+        // Since we only allow broadcasts now, always send through FCM directly to avoid duplication
+        $this->notificationService->sendThroughFcm($notification);
 
         $notification->update(['status' => \App\Enums\NotificationStatus::Sent]);
 
@@ -95,31 +89,14 @@ class NotificationController extends Controller
 
     protected function sendNotification(array $data)
     {
-        $users = [];
-        if (!empty($data['user_ids'])) {
-            $users = User::whereIn('id', $data['user_ids'])->get();
-            foreach ($users as $user) {
-            $this->notificationService->notify(
-                $user,
-                'admin_broadcast',
-                $data['ar_title'],
-                $data['en_title'],
-                $data['ar_body'],
-                $data['en_body']
-            );
-        }
-        }
-        else {
-             $this->notificationService->notify(
-                null,
-                'admin_broadcast',
-                $data['ar_title'],
-                $data['en_title'],
-                $data['ar_body'],
-                $data['en_body']
-            );
-        }
-        
+        $this->notificationService->notify(
+            null,
+            'admin_broadcast',
+            $data['ar_title'],
+            $data['en_title'],
+            $data['ar_body'],
+            $data['en_body']
+        );
     }
 
     /**

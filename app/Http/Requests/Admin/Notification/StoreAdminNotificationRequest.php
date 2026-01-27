@@ -22,8 +22,6 @@ class StoreAdminNotificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_ids' => ['nullable', 'array'],
-            'user_ids.*' => ['exists:users,id'],
             'ar_title' => ['required', 'string', 'max:255'],
             'en_title' => ['required', 'string', 'max:255'],
             'ar_body' => ['required', 'string'],
