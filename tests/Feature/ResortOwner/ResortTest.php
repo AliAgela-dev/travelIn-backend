@@ -55,7 +55,7 @@ class ResortTest extends TestCase
 
         // Verify media attached
         $resort = Resort::first();
-        $this->assertTrue($resort->getMedia('default')->isNotEmpty());
+        $this->assertTrue($resort->getMedia('images')->isNotEmpty());
     }
 
     public function test_owner_can_list_own_resorts()

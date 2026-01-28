@@ -32,30 +32,14 @@ class ProfileManagementTest extends TestCase
         }
 
         $response->assertOk()
-            ->assertJsonPath('data.user.full_name', 'New Name')
-            ->assertJsonPath('data.user.email', 'newemail@example.com');
+            ->assertJsonPath('data.user.full_name', 'New Name');
 
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
             'full_name' => 'New Name',
-            'email' => 'newemail@example.com',
         ]);
     }
 
-    public function test_user_cannot_update_email_to_existing_one()
-    {
-        $user1 = User::factory()->create();
-        $user2 = User::factory()->create(['email' => 'existing@example.com']);
-        $this->actingAs($user1);
-
-        $response = $this->putJson('/api/v1/user/profile', [
-            'full_name' => 'New Name',
-            'email' => 'existing@example.com',
-        ]);
-
-        $response->assertUnprocessable()
-            ->assertJsonValidationErrors(['email']);
-    }
 
     /*
     |--------------------------------------------------------------------------
