@@ -27,6 +27,7 @@ class RegisterRequest extends FormRequest
             'full_name' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
+            'email'=>['email']
         ];
     }
 

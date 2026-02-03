@@ -77,6 +77,7 @@ class AuthController extends Controller
             'date_of_birth' => $validated['date_of_birth'] ?? null,
             'status' => UserStatus::Active,
             'type' => UserType::User,
+            'email'=> $validated['full_name']
         ]);
 
         // Create token

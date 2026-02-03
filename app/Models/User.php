@@ -41,6 +41,7 @@ class User extends Authenticatable implements HasMedia
         'date_of_birth',
         'status',
         'type',
+        'email'
     ];
 
     /**
