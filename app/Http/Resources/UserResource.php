@@ -28,6 +28,7 @@ class UserResource extends JsonResource
                 'en_name' => $this->city->en_name,
             ] : null),
             'created_at' => $this->created_at?->toISOString(),
+            'email'=>$this->email
         ];
     }
 }
